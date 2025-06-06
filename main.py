@@ -1,35 +1,41 @@
 import cv2 as cv
 import numpy as np
-import time
+import pyautogui as gui
+from dataclasses import dataclass
+from HandTrackingModule import HandDetector
 import pyglet
-from HandTrackingModule import handDetector
 
 
 cap = cv.VideoCapture(0)
-cap.set(cv.CAP_PROP_FRAME_WIDTH, 1280)
-cap.set(cv.CAP_PROP_FRAME_WIDTH, 720)
+# cap.set(cv.CAP_PROP_FRAME_WIDTH, 1280)
+# cap.set(cv.CAP_PROP_FRAME_HEIGHT, 720)
+assert cap.get(cv.CAP_PROP_FRAME_WIDTH) == 640
+assert cap.get(cv.CAP_PROP_FRAME_HEIGHT) == 480
 
 window = pyglet.window.Window()
-detector = handDetector(detectionCon=0.8)
+detector = HandDetector(detectionCon=0.8)
 
-keys = (("C","D",'E',"F","G","A","B","C","D","E","F","G","A","B"),("C#","D#","F#","G#","A#","C#","D#","F#","G#","A#"))
+keys = (
+    ("C", "D", "E","F", "G", "A", "B","C", "D", "E","F", "G", "A", "B"),
+    ("C#","D#",'', "F#","G#","A#",'', "C#","D#",'', "F#","G#","A#")
+)
 
 
-class Button():
-    def __init__(self, pos, text, size, color):
-        self.pos = pos
-        self.size = size
-        self.text = text
-        self.color = color
+@dataclass
+class Button:
+    pos: list
+    text: str
+    size: list
+    color: tuple
 
 
 buttonList = []
 for i in range(len(keys)):
     for j, key in enumerate(keys[i]):   
         if i == 0:
-            buttonList.append(Button([38*j+15,80], key, [35,100], (255,255,255)))
-        else:
-            buttonList.append(Button([(40+j)*j+25,80], key, [35,50], (0,0,0)))    
+            buttonList.append(Button([38*j+15,0], key, [35,100], (255,255,255)))
+        elif key != '':
+            buttonList.append(Button([38*j+15+35//2,0], key, [35,50], (0,0,0)))
 
 
 def playkeys(button):
