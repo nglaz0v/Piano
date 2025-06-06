@@ -1,7 +1,7 @@
 import numpy as np
 import time
 import cv2
-from cvzone.HandTrackingModule import HandDetector
+from HandTrackingModule import handDetector
 import pyglet
 
 
@@ -10,7 +10,7 @@ cap.set(3,1280)
 cap.set(4,720)
 
 window = pyglet.window.Window()
-detector =HandDetector(detectionCon=0.8)
+detector =handDetector(detectionCon=0.8)
 
 keys=[["C","D",'E',"F","G","A","B","C","D","E","F","G","A","B"],["C#","D#","F#","G#","A#","C#","D#","F#","G#","A#"]]
 
